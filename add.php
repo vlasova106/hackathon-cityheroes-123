@@ -1,7 +1,13 @@
 <html>
 
-<form action="">
-
+<form  method="POST">
+    <input type="text" name="un">
+    <input type="text" name="faculty">
+    <input type="text" name="course">
+    <input type="text" name="subj">
+    <input type="text" name="theme">
+    <input type="text" name="content">
+    <input type="submit">
 </form>
 
 
@@ -16,7 +22,7 @@ $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"
 
 $university = 'Some un.';
 $faculty = 'Faculty';
-$course = 1;
+$course = '1';
 $subj = 'Maths';
 $theme = 'Subject';
 $content = 'Content to test this function';
