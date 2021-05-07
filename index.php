@@ -1,3 +1,11 @@
+<html>
+
+<form method = "POST">
+
+
+</html>
+
+
 <? 
 
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
@@ -14,18 +22,19 @@ $content = 'Content to test this function';
 // Проверки
 
 
-
 // Формирование новой записи
 
-$sql = 'INSERT INTO conspect (university, faculty, course, subj, theme, content) VALUES ($university, $faculty, $course, $subj, $theme, $content)';
-$result = mysqli_query($link, $sql);
+// $result = mysqli_query($link, $add);
+$add = mysqli_query ($link, "INSERT INTO `conspect`(`university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$university', '$faculty', '$course', '$subj', '$theme', '$content')");
 
-if ($result == false) {
-    print("Произошла ошибка при выполнении запроса");
-}
 
+// if ($result == false) {
+//     print("Произошла ошибка при выполнении запроса");
+// }
 // Переадресация на главную 
 
 
+
+mysqli_close($link);
 
 ?>  
