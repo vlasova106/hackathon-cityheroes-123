@@ -83,7 +83,7 @@
 
 
                         </div>
-
+                        <h5 style="float:right"><a href="reg.php">Регистрация</a></h5>
                      
                     </div>
                 </nav>

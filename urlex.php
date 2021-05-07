@@ -20,13 +20,13 @@
 -moz-box-shadow: 0px 0px 17px -5px rgba(34, 60, 80, 0.2);
 box-shadow: 0px 0px 17px -5px rgba(34, 60, 80, 0.2);
 padding-bottom:10px;
-
 }
 .content-body{
     padding:5%;
 }
 .cvc{text-align: center}
 .has-arrow{padding-top: 28px!important;}
+.vvb{padding:3%!important;}
 </style>
 
 

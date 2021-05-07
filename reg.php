@@ -75,15 +75,18 @@
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
                             <h4 style="margin-top:40px">Регистрация</h4>
+                           
+
                         </div>
                     </div>
 
+           
                 </div>
 
-
+               
 
                         </div>
-
+                        <h5 style="float:right"><a href="login.php">Вход</a></h5>
                      
                     </div>
                 </nav>
