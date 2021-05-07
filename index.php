@@ -1,6 +1,5 @@
 <? 
 
-echo 'Hello, git!';
-echo 'Hello again..';
+echo 'Hello, git';
 
 ?>
