@@ -1,4 +1,5 @@
 <p>Регистрация</p><br>
+<a href="/login.php">Авторизация</a>
 <form  method="POST">
     <input type="text" name="login" placeholder="Логин">
     <input type="email" name="email" placeholder="Email">
@@ -22,9 +23,19 @@ $pass = $_POST['pass'];
 // Регистрация нового вользователя
 
 if (!empty($login) && !empty($email) && !empty($un) && !empty($sp) && !empty($pass)) {
-
-    $add = mysqli_query ($link, "INSERT INTO `user` (`name`, `email`, `institution`, `specialty`, `password`) 
-    VALUES ('$login', '$email', '$un', '$sp', '$pass')");
+    $users = mysqli_query ($link, "SELECT * FROM `user` WHERE 1");
+    $loginCheck = true; 
+    while ($user = mysqli_fetch_array ($users)) {
+        if ($user['name'] == $login) {
+            $loginCheck = false;
+        }
+    }
+    if ($loginCheck == true){
+        $add = mysqli_query ($link, "INSERT INTO `user` (`name`, `email`, `institution`, `specialty`, `password`) 
+        VALUES ('$login', '$email', '$un', '$sp', '$pass')");
+    }else {
+        print('Логин занят');
+    }
     // echo "<script>document.location.href='/';</script>";
 
 }
