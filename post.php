@@ -21,6 +21,5 @@ while ($item = mysqli_fetch_array ($get_all)){
 
 }
 
-
 mysqli_close($link);
 ?>

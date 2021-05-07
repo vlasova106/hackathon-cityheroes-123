@@ -26,7 +26,6 @@ $subj = $_POST['subj'];
 $theme = $_POST['theme'];
 $content = $_POST['content'];
 
-
 // Формирование новой записи
 
 if (!empty($university) && !empty($faculty) && !empty($course) && !empty($subj) && !empty($theme) && !empty($content)) {
