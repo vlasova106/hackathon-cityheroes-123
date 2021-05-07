@@ -95,6 +95,7 @@ padding-bottom:10px;
 
 
                         </div>
+                        <h5 style="float:right">Имя</h5>
 
                      
                     </div>
