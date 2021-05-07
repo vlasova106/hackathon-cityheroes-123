@@ -1,10 +1,10 @@
 <? 
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 
 print ("<a href='/add.php'> Add post </a> <br><br>");
-
 print ("all posts:");
 
-$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
+// Вывод всех записей
 
 $get_all = mysqli_query ($link, "SELECT * FROM `conspect` WHERE 1");
 
@@ -16,11 +16,7 @@ while ($item = mysqli_fetch_array ($get_all)){
     print ("Тема:".$item['theme'].". <br>");
     print ("Конспект:".$item['content']." <br><br>");
 }
-$subj = $_POST['subj'];
-$theme = $_POST['theme'];
-$content = $_POST['content'];
 
 
 mysqli_close($link);
-
 ?>
