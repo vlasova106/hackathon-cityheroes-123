@@ -1,4 +1,5 @@
 <html>
+<a href="/">Отмена</a>
 
 <form  method="POST">
     <input type="text" name="un" placeholder="Учебное заведение">
