@@ -114,8 +114,8 @@ $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"
 						</a>
                         <ul aria-expanded="false">
                         <li><a style="color:gray">Отправка лекции</a></li>
-                        <li><a href="accept.php">Найти лекцию</a></li>
-							<li><a href="urlex.php">Все лекции</a></li>
+							<li><a style="color:gray">Получение лекций</a></li>
+							<li><a style="color:gray">Ваши лекции</a></li>
 
 						</ul>
                     </li>
@@ -146,6 +146,7 @@ $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"
 									<div class="form-group">
 
 
+									<input type="text" class="form-control nin" id="yjeb" placeholder="Ваше учебное зведение">
     <input type="text" class="form-control nin" id="yjeb" placeholder="Имя" name="login">
     <input type="text" class="form-control nin" id="yjeb" placeholder="Почта" name="email">
     <input type="text" class="form-control nin" id="yjeb" placeholder="Учебное заведение" name="un">

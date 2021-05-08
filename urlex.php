@@ -132,7 +132,7 @@ while ($u = mysqli_fetch_array ($user)){
 							<li><a href="accept.php">Найти лекцию</a></li>
 							<li><a href="urlex.php">Все лекции</a></li>
                             <form method="POST">
-                                <input name="quit" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Выйти из аккаунта" />
+                                <input name="quit" type="submit" class="btn btn-primary" style="margin-left:20%" value="Выйти из аккаунта" />
                             </form>
                            
 						</ul>

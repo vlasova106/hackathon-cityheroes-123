@@ -1,6 +1,10 @@
 <?
 session_start();
 
+if ($_SESSION['is_login']==true){
+    echo "<script>document.location.href='/urlex.php';</script>";
+}
+
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 $users = mysqli_query ($link, "SELECT * FROM `user` WHERE 1");
 

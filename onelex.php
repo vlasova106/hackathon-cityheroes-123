@@ -13,6 +13,8 @@ $get = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `id`= '$id'");
 
 $uid = $_SESSION['id'];
 $user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$uid'"); 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +137,7 @@ while ($u = mysqli_fetch_array ($user)){
 							<li><a href="accept.php">Найти лекцию</a></li>
 							<li><a href="urlex.php">Все лекции</a></li>
                             <form method="POST">
-                                <input name="quit" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Выйти из аккаунта" />
+                                <input name="quit" type="submit" class="btn btn-primary" style="margin-left:20%" value="Выйти из аккаунта" />
                             </form>
 						</ul>
                     </li>
@@ -190,9 +192,12 @@ while ($item = mysqli_fetch_array ($get)){
 </div>
 </div>');
 }
-$vote = mysqli_fetch_array(mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`= '$id' AND `user_id` = '$user_id'"));
+
+
+$vote = mysqli_fetch_array(mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`= '$id' AND `user_id` = '$uid'"));
+
 if (empty($vote)){
-    if ($user_id != $_SESSION['id']) {
+    if ($vote['user_id'] != $_SESSION['id']) {
         echo '
         <form method="POST" style="margin-right:20px;">
             <input name="vote" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Like" />
@@ -236,7 +241,7 @@ vendor/apexchart/apexchart.js"></script>
 
 if (isset($_POST['vote'])){
     $add = mysqli_query ($link, "INSERT INTO `vote` (`user_id`, `post_id`, `value`, `cause`) 
-        VALUES ('$user_id', '$id', 1, 'useful')");
+        VALUES ('$uid', '$id', 1, 'useful')");
     
     // обновление рейтинга
     $sq =mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`=$id");
@@ -244,12 +249,12 @@ if (isset($_POST['vote'])){
         $x = $x + $rate['value'];
     }
     $update = mysqli_query($link, "UPDATE `conspect` SET `value`= $x WHERE `id`= $id"); 
-    $sq = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `user_id`=$user_id");
+    $sq = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `user_id`=$uid");
     
     while ($rate = mysqli_fetch_array($sq)) {
         $x = $x + $rate['value'];
     }
-    $update = mysqli_query($link, "UPDATE `user` SET `value`= $x WHERE `id`= $user_id");
+    $update = mysqli_query($link, "UPDATE `user` SET `value`= $x WHERE `id`= $uid");
 
     echo '<meta http-equiv="refresh" content="0">';
 }
@@ -258,7 +263,7 @@ if (isset($_POST['dis'])){
     $cause = $_POST['cause'];
     $v = -1;
     $add = mysqli_query ($link, "INSERT INTO `vote` (`user_id`, `post_id`, `value`, `cause`) 
-        VALUES ('$user_id', '$id', $v, '$cause')");
+        VALUES ('$uid', '$id', $v, '$cause')");
 
     // обновление рейтинга
     $sq =mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`=$id");
@@ -266,12 +271,12 @@ if (isset($_POST['dis'])){
         $x = $x + $rate['value'];
     }
     $update = mysqli_query($link, "UPDATE `conspect` SET `value`= $x WHERE `id`= $id"); 
-    $sq = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `user_id`=$user_id");
+    $sq = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `user_id`=$uid");
     
     while ($rate = mysqli_fetch_array($sq)) {
         $x = $x + $rate['value'];
     }
-    $update = mysqli_query($link, "UPDATE `user` SET `value`= $x WHERE `id`= $user_id");
+    $update = mysqli_query($link, "UPDATE `user` SET `value`= $x WHERE `id`= $uid");
     
 
     echo '<meta http-equiv="refresh" content="0">';
