@@ -1,4 +1,5 @@
 <? 
+session_start();
 
 if ($_SESSION['is_login']==false){
     echo "<script>document.location.href='/log.php';</script>";
@@ -17,6 +18,9 @@ $id = $_GET['post_id'];
 $get_all = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `id`= '$id'");
 
 while ($item = mysqli_fetch_array ($get_all)){
+    print ("Рейтинг поста:".$item['value']."<br>");
+    print ('Автор:<br><br>');
+
     print ("Учебное заведение:".$item['university'].", ");
     print ("Специальность:".$item['faculty'].", ");
     print ("Курс:".$item['course'].". <br>");
