@@ -1,4 +1,9 @@
 <? 
+
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/log.php';</script>";
+}
+
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 
 print ("<a href='/'> <- Все записи </a> <br><br>");

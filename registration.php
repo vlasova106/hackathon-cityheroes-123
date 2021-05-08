@@ -1,5 +1,8 @@
+<?php 
+session_start();
+?>
 <p>Регистрация</p><br>
-<a href="/login.php">Авторизация</a>
+<a href="/log.php">Авторизация</a>
 <form  method="POST">
     <input type="text" name="login" placeholder="Логин">
     <input type="email" name="email" placeholder="Email">
@@ -10,6 +13,10 @@
 </form>
 
 <? 
+if ($_SESSION['is_login']==true){
+    echo "<script>document.location.href='/';</script>";
+}
+
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 
 // Получение данных из формы 
@@ -33,8 +40,10 @@ if (!empty($login) && !empty($email) && !empty($un) && !empty($sp) && !empty($pa
     if ($loginCheck == true){
         $add = mysqli_query ($link, "INSERT INTO `user` (`name`, `email`, `institution`, `specialty`, `password`) 
         VALUES ('$login', '$email', '$un', '$sp', '$pass')");
-        
+        $_SESSION['is_login'] = true;
+        $_SESSION['id'] = mysqli_insert_id($link);
         echo "<script>document.location.href='/';</script>";
+        
     }else {
         print('Логин занят');
     }

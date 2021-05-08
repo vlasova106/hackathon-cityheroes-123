@@ -1,5 +1,27 @@
 <? 
-$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
+session_start();
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"); ?>
+
+<form method="POST">
+     <input name="quit" type="submit" value="Выйти" />
+</form>
+
+<?
+
+if (isset($_POST['quit'])){
+    $_SESSION['is_login']=false;
+}
+
+$id = $_SESSION['id'];
+$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'");
+while ($u = mysqli_fetch_array ($user)){
+    print ('Логин: '.$u['name'].'<br><br>');
+}
+
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/log.php';</script>";
+}
+
 
 print ("<a href='/add.php'> Добавить конспект </a> <br><br>");
 print ("Все записи:<br><br>");

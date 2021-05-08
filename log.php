@@ -1,3 +1,6 @@
+<?
+session_start();
+?>
 <html>
 <p>Авторизация</p><br>
 <a href="/registration.php">Регистрация</a>
@@ -10,6 +13,10 @@
 </html>
 
 <?
+if ($_SESSION['is_login']==true){
+    echo "<script>document.location.href='/';</script>";
+}
+
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 $users = mysqli_query ($link, "SELECT * FROM `user` WHERE 1");
 
@@ -32,11 +39,14 @@ while ($u = mysqli_fetch_array ($users)){
 
 if (!empty($login) && !empty($pass)){
     if ($isLogin == true){
-        $u = mysqli_fetch_array ($user);
-        if ($u['pass'] == $pass){
-            echo "<script>document.location.href='/';</script>";
-        }else {
-            print('Пароль введен некорректно');
+        while ($u = mysqli_fetch_array ($user)){
+            if ($u['password'] == $pass){
+                $_SESSION['id'] = $u['id'];
+                $_SESSION['is_login'] = true;
+                echo "<script>document.location.href='/';</script>";
+            }else {
+                print('Пароль введен некорректно');
+            }
         }
     }else {
         print('Логин введен некорректно');
