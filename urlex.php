@@ -1,4 +1,3 @@
-
 <? 
 session_start();
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"); 

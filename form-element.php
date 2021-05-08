@@ -1,3 +1,14 @@
+<? session_start(); 
+
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/log.php';</script>";
+}
+
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
+
+$id = $_SESSION['id'];
+$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'"); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +109,12 @@
 
 
                         </div>
-<h5 style="float:right">Имя</h5>
+                        <?php
+                        
+                        while ($u = mysqli_fetch_array ($user)){
+                            print ("<h5 style='float:right'>".$u['name']."</h5>");
+                        }
+                                                ?>
                      
                     </div>
                 </nav>
@@ -139,43 +155,70 @@
                                 <h4 class="card-title">Введите параметры лекции</h4>
                             </div>
 
-							<form method="post" action="form-element" style="margin-top:30px;">
+							<form method="post" style="margin-top:30px;">
 							<div class="row">
                             <div class="col-xl-2 col-lg-2"></div>
                             <div class=" col-xl-8 col-lg-8" style="float:left;">
                                 <div class="basic-form">
 									<div class="form-group">
-
-
-										<input type="text" class="form-control nin" id="yjeb" placeholder="Ваше учебное зведение">
-										<input type="text" class="form-control nin" id="yjeb" placeholder="Ваш факультет">
-										<input type="text" class="form-control nin" id="yjeb" placeholder="Ваш курс">
-										<input type="text" class="form-control nin" id="yjeb" placeholder="Предмет лекции">
-										<input type="text" class="form-control nin" id="yjeb" placeholder="Тема лекции">
-										<input type="text" class="form-control nin" id="yjeb" placeholder="Дата">
+										<input type="text" class="form-control nin" id="yjeb" placeholder="Ваш курс" name="course">
+										<input type="text" class="form-control nin" id="yjeb" placeholder="Предмет лекции" name="subj">
+										<input type="text" class="form-control nin" id="yjeb" placeholder="Тема лекции" name="theme">
+										<!-- <input type="text" class="form-control nin" id="yjeb" placeholder="Дата"> -->
 										<!-- <input type="file" name="obj" class="nin2" placeholder="Место для лекции"> -->
 										<div class="example-2">
   <div class="form-group">
-    <input type="file" name="file" id="file" class="input-file">
+    <!-- <input type="file" name="file" id="file" class="input-file">
     <label for="file" class="btn btn-tertiary js-labelFile">
       <i class="icon fa fa-check"></i>
       <span class="js-fileName">Загрузить файл</span>
-    </label>
+    </label> -->
   </div>
  </div>
+										<div style="width:width:100%;"><textarea name="content" class="form-control" style="margin-bottom: 10px;width:100%;"></textarea></div>
+										<button type="submit" class="btn btn-primary" style="float: right; margin-bottom: 20px;">Отправить</button>
 
-										<div style="width:width:100%;"><textarea class="form-control" style="margin-bottom: 10px;width:100%;"></textarea></div>
-										<button type="submit" class="btn btn-primary" style="float: right;">Отправить</button>
-
-
-									
 										                                        </div>
  
                                 </div>
                             </div>
 </div>
-
 </form>
+
+<? 
+
+
+
+// Получение данных из формы 
+
+$course = $_POST['course'];
+$subj = $_POST['subj'];
+$theme = $_POST['theme'];
+$content = $_POST['content'];
+
+// Формирование новой записи
+
+$id = $_SESSION['id'];
+$user = mysqli_fetch_array(mysqli_query ($link, "SELECT * FROM `user` WHERE `id`= '$id'"));
+$university = $user['institution'];
+$faculty = $user['specialty'];
+
+
+    if (!empty($university) && !empty($faculty) && !empty($course) && !empty($subj) && !empty($theme) && !empty($content)) {
+        if ($user['value']>-10){
+        $add = mysqli_query ($link, "INSERT INTO `conspect` (`user_id`, `university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$id','$university', '$faculty', '$course', '$subj', '$theme', '$content')");
+        echo "<script>document.location.href='/urlex.php';</script>";
+        }
+        else {
+            print ('<p style="text-align:center;">Ваш рейтинг: '.$user['value'].'<br >');
+            print ('Вы не можете загрузить лекцию.</p>');
+        }
+    }
+
+
+mysqli_close($link);
+
+?>  
 
 				
                 </div>
