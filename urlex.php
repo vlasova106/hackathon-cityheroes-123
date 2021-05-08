@@ -95,6 +95,7 @@ padding-bottom:10px;
 
 
                         </div>
+                        <h5 style="float:right">Имя</h5>
 
                      
                     </div>
@@ -124,54 +125,38 @@ padding-bottom:10px;
 			</div>
         </div>
 
-        <div class="content-body" style="min-height:300%">
-        <div class="container vvb">
-
-
-<div class="row">
-
-<div class="col-md-12">
-<div><h4>Тема лекции:</h4><h4></h4></div>
-<div><h4>Дата лекции:</h4><h4></h4></div>
-</div>
-
-</div>
-
-
-<div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-6"><img src="ozero.jpg" class="img-fluid"></div>
-<div class="col-md-3"></div>
-
-</div>
-
-</div>
+        <div class="content-body" style="min-height:300%;">
 
 
 
 
-<div class="container vvb">
+        <div class="row" style="margin-top:30px;">
 
+<!-- <div class="col-xl-1 col-lg-1"></div> -->
+    <div class="col-xl-12 col-lg-12">
+        <div class="card" style="padding-bottom:20px;">
+            <div class="card-header">
+                <h4 class="card-title">Тема лекции:</h4>
+            </div>
 
-<div class="row">
-
-<div class="col-md-12">
-<div><h4>Тема лекции:</h4><h4></h4></div>
-<div><h4>Дата лекции:</h4><h4></h4></div>
-</div>
-
+            <form method="post" action="form-element" style="margin-top:30px;">
+            <div class="row">
+            <div class="col-xl-1 col-lg-1"></div>
+            <div class=" col-xl-10 col-lg-10" style="float:left;">
+            <h5>Дата лекции:</h5>
+            <img src="ozero.jpg" class="img-fluid">   
+            </div>
 </div>
 
 
-<div class="row">
-<div class="col-md-3"></div>
-<div class="col-md-6"><img src="ozero.jpg" class="img-fluid"></div>
-<div class="col-md-3"></div>
 
-</div>
-        </div>
-	</div>
-		</div>
+
+
+
+
+
+
+        
 	</div>
     <script src="
 vendor/global/global.min.js"></script>
