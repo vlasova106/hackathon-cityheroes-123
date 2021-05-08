@@ -1,3 +1,4 @@
+<? session_start(); ?>
 <html>
 <a href="/">Отмена</a>
 
@@ -15,6 +16,10 @@
 
 <? 
 
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/log.php';</script>";
+}
+
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 
 // Получение данных из формы 
@@ -29,8 +34,8 @@ $content = $_POST['content'];
 // Формирование новой записи
 
 if (!empty($university) && !empty($faculty) && !empty($course) && !empty($subj) && !empty($theme) && !empty($content)) {
-
-    $add = mysqli_query ($link, "INSERT INTO `conspect` (`university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$university', '$faculty', '$course', '$subj', '$theme', '$content')");
+    $id = $_SESSION['id'];
+    $add = mysqli_query ($link, "INSERT INTO `conspect` (`user_id`, `university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$id','$university', '$faculty', '$course', '$subj', '$theme', '$content')");
     echo "<script>document.location.href='/';</script>";
 
 }
