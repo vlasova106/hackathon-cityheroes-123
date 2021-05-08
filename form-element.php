@@ -165,7 +165,7 @@
  </div>
 
 										<div style="width:width:100%;"><textarea class="form-control" style="margin-bottom: 10px;width:100%;"></textarea></div>
-										<button type="submit" class="btn btn-primary" stytle="float: right;">Отправить</button>
+										<button type="submit" class="btn btn-primary" style="float: right;">Отправить</button>
 
 
 									
@@ -178,21 +178,6 @@
 </form>
 
 				
-
-
-
-
-
-
-
-
-</form>
-
-
-
-
-
-
                 </div>
             </div>
         </div>
