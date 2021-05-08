@@ -132,8 +132,8 @@ padding-bottom:10px;
 
         <div class="row" style="margin-top:30px;">
 
-<div class="col-xl-1 col-lg-1"></div>
-    <div class="col-xl-10 col-lg-10">
+<!-- <div class="col-xl-1 col-lg-1"></div> -->
+    <div class="col-xl-12 col-lg-12">
         <div class="card" style="padding-bottom:20px;">
             <div class="card-header">
                 <h4 class="card-title">Тема лекции:</h4>
