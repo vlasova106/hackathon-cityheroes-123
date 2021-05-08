@@ -87,8 +87,8 @@ $users = mysqli_query ($link, "SELECT * FROM `user` WHERE 1");
 						</a>
                         <ul aria-expanded="false">
                         <li><a style="color:gray">Отправка лекции</a></li>
-							<li><a style="color:gray">Получение лекций</a></li>
-							<li><a style="color:gray">Ваши лекции</a></li>
+                        <li><a href="accept.php">Найти лекцию</a></li>
+							<li><a href="urlex.php">Все лекции</a></li>
 						</ul>
                     </li>
                         </ul>

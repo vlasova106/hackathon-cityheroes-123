@@ -1,3 +1,15 @@
+<? session_start(); 
+
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/log.php';</script>";
+}
+
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
+
+$id = $_SESSION['id'];
+$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'"); 
+?>
+
 <? 
 session_start();
 $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"); 
@@ -7,7 +19,7 @@ $user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'");
 
 $get_all = mysqli_query ($link, "SELECT * FROM `conspect` ORDER BY `value` DESC");
 
-mysqli_close($link);
+
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +98,7 @@ mysqli_close($link);
                             <div class="row page-titles nav-item">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4 style="margin-top:40px">Загрузите свою лекцию</h4>
+                            <h4 style="margin-top:40px">Поиск</h4>
                         </div>
                     </div>
 
@@ -117,8 +129,8 @@ while ($u = mysqli_fetch_array ($user)){
 						</a>
                         <ul aria-expanded="false">
                         <li><a href="form-element.php">Отправка лекции</a></li>
-							<li><a href="accept.php">Получение лекций</a></li>
-							<li><a href="urlex.php">Ваши лекции</a></li>
+							<li><a href="accept.php">Найти лекцию</a></li>
+							<li><a href="urlex.php">Все лекции</a></li>
                             <form method="POST">
                                 <input name="quit" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Выйти из аккаунта" />
                             </form>
@@ -144,18 +156,17 @@ while ($u = mysqli_fetch_array ($user)){
                                 <h4 class="card-title">Введите параметры</h4>
                             </div>
 
-							<form method="post" action="form-element" style="margin-top:30px;">
+							<form method="post" style="margin-top:30px;">
                             <div class="col-xl-2 col-lg-2"></div>
                             <div class=" col-xl-8 col-lg-8" style="float:left;">
                                 <div class="basic-form">
 									<div class="form-group">
 
 
-									<input type="text" class="form-control nin" id="yjeb" placeholder="Ваше учебное зведение">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Ваш факультет">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Ваш курс">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Дата">
-  <button type="submit" class="btn btn-primary">Submit</button>
+									<input type="text" class="form-control nin" id="yjeb" placeholder="Предмет" name="subj">
+                                    <input type="text" class="form-control nin" id="yjeb" placeholder="Тема" name="theme">
+
+  <button type="submit" class="btn btn-primary">Поиск</button>
 
 
 									
@@ -166,22 +177,64 @@ while ($u = mysqli_fetch_array ($user)){
 
 
 </form>
+<?
 
+$subj = $_POST['subj'];
+$theme = $_POST['theme'];
+
+// print($subj.'____'.$theme);
+$x = 0;
+if (!empty($subj) & !empty($theme)){
+
+    $find = mysqli_query($link, "SELECT * FROM `conspect` WHERE `subj` = '$subj' AND `theme` = '$theme'"); 
+    $x = 1;
+    while ($item = mysqli_fetch_array ($find)){
+        print ('
+        <div class="card" style="padding-bottom:20px;">');
+    
+        print ('
+        
+                <div class="card-header" style="margin-bottom:20px;">
+                    <h4 class="card-title">Тема лекции: '.$item["theme"].' </h4>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xl-1 col-lg-1"></div>
+                    <div class=" col-xl-10 col-lg-10" style="float:left;"> 
+                    <h5>
+        
+        ');
+    
+        print ("Рейтинг: ".$item['value']."<br>");
+        print ("Учебное заведение: ".$item['university'].".<br>");
+        print ("Специальность: ".$item['faculty'].", ");
+        print ("Курс: ".$item['course'].". <br>");
+        print ("Предмет: ".$item['subj'].". <br><br>");
+    
+        print ("<a href='/onelex.php?post_id=".$item['id']."'>Перейти к лекции</a><br><br>");
+    
+        print ('
+        </h5>
+        </div>
+        </div>
+    </div>
+    ');
+    $x++;
+    }
+
+    if ($x<2) {
+    print ('
+            <div class="card-header" style="margin-bottom:20px;">
+                <h4 class="card-title">Не найдено</h4>
+            </div>
+    ');
+    }
+}
+
+
+
+?>
 				
-
-
-
-
-
-
-
-
-</form>
-
-
-
-
-
 
                 </div>
             </div>
@@ -219,4 +272,6 @@ if (isset($_POST['quit'])){
 if ($_SESSION['is_login']==false){
     echo "<script>document.location.href='/login.php';</script>";
 }
+
+mysqli_close($link);
 ?>
