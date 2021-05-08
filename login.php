@@ -102,7 +102,7 @@
                                 <div class="basic-form">
 									<div class="form-group">
 								
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Почта">
+    <input type="text" class="form-control nin" id="yjeb" placeholder="Логин">
     <input type="password" class="form-control nin" id="yjeb" placeholder="Пароль">
   <button type="submit" class="btn btn-primary">Submit</button>
 									

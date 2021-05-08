@@ -33,10 +33,11 @@ if (!empty($login) && !empty($email) && !empty($un) && !empty($sp) && !empty($pa
     if ($loginCheck == true){
         $add = mysqli_query ($link, "INSERT INTO `user` (`name`, `email`, `institution`, `specialty`, `password`) 
         VALUES ('$login', '$email', '$un', '$sp', '$pass')");
+        
+        echo "<script>document.location.href='/';</script>";
     }else {
         print('Логин занят');
     }
-    // echo "<script>document.location.href='/';</script>";
 
 }
 

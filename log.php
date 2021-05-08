@@ -34,7 +34,7 @@ if (!empty($login) && !empty($pass)){
     if ($isLogin == true){
         $u = mysqli_fetch_array ($user);
         if ($u['pass'] == $pass){
-            setcookie("user_id", $id);
+            echo "<script>document.location.href='/';</script>";
         }else {
             print('Пароль введен некорректно');
         }
