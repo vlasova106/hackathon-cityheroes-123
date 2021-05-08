@@ -16,6 +16,17 @@
 .nin2{width:100%;margin-bottom:10px;}
 
 .has-arrow{padding-top: 28px!important;}
+
+
+
+
+.example-2 .btn-tertiary{color:#555;padding:0;line-height:40px;margin:auto;display:block;border:2px solid #555}
+.example-2 .btn-tertiary:hover,.example-2 .btn-tertiary:focus{color:#888;border-color:#888}
+.example-2 .input-file{width:.1px;height:.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1}
+.example-2 .input-file + .js-labelFile{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 10px;cursor:pointer}
+.example-2 .input-file + .js-labelFile .icon:before{content:"\f093"}
+.example-2 .input-file + .js-labelFile.has-file .icon:before{content:"\f00c";color:#5AAC7B}
+
 </style>
 
 
@@ -121,14 +132,15 @@
           
                 <div class="row">
 
-
-                    <div class="col-xl-12 col-lg-12">
+				<div class="col-xl-1 col-lg-1"></div>
+                    <div class="col-xl-10 col-lg-10">
                         <div class="card" >
                             <div class="card-header">
                                 <h4 class="card-title">Введите параметры лекции</h4>
                             </div>
 
 							<form method="post" action="form-element" style="margin-top:30px;">
+							<div class="row">
                             <div class="col-xl-2 col-lg-2"></div>
                             <div class=" col-xl-8 col-lg-8" style="float:left;">
                                 <div class="basic-form">
@@ -141,9 +153,19 @@
 										<input type="text" class="form-control nin" id="yjeb" placeholder="Предмет лекции">
 										<input type="text" class="form-control nin" id="yjeb" placeholder="Тема лекции">
 										<input type="text" class="form-control nin" id="yjeb" placeholder="Дата">
-										<input type="file" name="obj" class="nin2" placeholder="Место для лекции">
-										<div style="width:width:100%;"><textarea style="margin-bottom: 10px;width:80%;"></textarea></div>
-										<button type="submit" class="btn btn-primary">Отправить</button>
+										<!-- <input type="file" name="obj" class="nin2" placeholder="Место для лекции"> -->
+										<div class="example-2">
+  <div class="form-group">
+    <input type="file" name="file" id="file" class="input-file">
+    <label for="file" class="btn btn-tertiary js-labelFile">
+      <i class="icon fa fa-check"></i>
+      <span class="js-fileName">Загрузить файл</span>
+    </label>
+  </div>
+ </div>
+
+										<div style="width:width:100%;"><textarea class="form-control" style="margin-bottom: 10px;width:100%;"></textarea></div>
+										<button type="submit" class="btn btn-primary" stytle="float: right;">Отправить</button>
 
 
 									
@@ -151,7 +173,7 @@
  
                                 </div>
                             </div>
-
+</div>
 
 </form>
 
