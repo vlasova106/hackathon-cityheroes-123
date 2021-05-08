@@ -1,3 +1,15 @@
+<? 
+session_start();
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"); 
+
+$id = $_SESSION['id'];
+$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'");
+
+$get_all = mysqli_query ($link, "SELECT * FROM `conspect` ORDER BY `value` DESC");
+
+mysqli_close($link);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,7 +95,12 @@
 
 
                         </div>
-                        <h5 style="float:right">Имя</h5>
+                        <?php
+                        
+while ($u = mysqli_fetch_array ($user)){
+    print ("<h5 style='float:right'>".$u['name']."</h5>");
+}
+                        ?>
 
                      
                     </div>
@@ -102,7 +119,9 @@
                         <li><a href="form-element.php">Отправка лекции</a></li>
 							<li><a href="accept.php">Получение лекций</a></li>
 							<li><a href="urlex.php">Ваши лекции</a></li>
-
+                            <form method="POST">
+                                <input name="quit" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Выйти из аккаунта" />
+                            </form>
 						</ul>
                     </li>
 
@@ -189,3 +208,15 @@ vendor/apexchart/apexchart.js"></script>
 </body>
 
 </html>
+
+
+
+<?
+if (isset($_POST['quit'])){
+    $_SESSION['is_login']=false;
+}
+
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/login.php';</script>";
+}
+?>

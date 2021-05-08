@@ -1,15 +1,19 @@
-<? 
+<?
 session_start();
-$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"); 
 
-$id = $_SESSION['id'];
-$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'");
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/log.php';</script>";
+}
 
-$get_all = mysqli_query ($link, "SELECT * FROM `conspect` ORDER BY `value` DESC");
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
 
-mysqli_close($link);
+$id = $_GET['post_id'];
+
+$get = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `id`= '$id'");
+
+$uid = $_SESSION['id'];
+$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$uid'"); 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,7 +101,7 @@ padding-bottom:10px;
                             <div class="row page-titles nav-item">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4 style="margin-top:40px">Ваши лекции</h4>
+                            <h4 style="margin-top:40px">Выбранная лекция</h4>
                         </div>
                     </div>
 
@@ -106,7 +110,6 @@ padding-bottom:10px;
 
 
                         </div>
-
                         <?php
                         
 while ($u = mysqli_fetch_array ($user)){
@@ -134,7 +137,6 @@ while ($u = mysqli_fetch_array ($user)){
                             <form method="POST">
                                 <input name="quit" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Выйти из аккаунта" />
                             </form>
-                           
 						</ul>
                     </li>
 
@@ -153,10 +155,25 @@ while ($u = mysqli_fetch_array ($user)){
         <div class="row" style="margin-top:30px;">
 
 
+    <!-- <div class="col-xl-12 col-lg-12">
+        <div class="card" style="padding-bottom:20px;">
+            <div class="card-header">
+                <h4 class="card-title">Тема лекции:</h4>
+            </div>
 
-        <?php 
+            <form method="post" action="form-element" style="margin-top:30px;">
+            <div class="row">
+            <div class="col-xl-1 col-lg-1"></div>
+            <div class=" col-xl-10 col-lg-10" style="float:left;">
+            <h5>Дата лекции:</h5>
+            <img src="ozero.jpg" class="img-fluid">   
+            </div>
+    </div> -->
+<?
 
-while ($item = mysqli_fetch_array ($get_all)){
+
+while ($item = mysqli_fetch_array ($get)){
+    $user_id = $item['user_id'];
     print ('<div class="col-xl-12 col-lg-12">
     <div class="card" style="padding-bottom:20px;">');
 
@@ -174,12 +191,12 @@ while ($item = mysqli_fetch_array ($get_all)){
     ');
 
     print ("Рейтинг: ".$item['value']."<br>");
-    print ("Учебное заведение: ".$item['university'].".<br>");
+    print ("Учебное заведение: ".$item['university']."<br>");
     print ("Специальность: ".$item['faculty'].", ");
     print ("Курс: ".$item['course'].". <br>");
     print ("Предмет: ".$item['subj'].". <br><br>");
 
-    print ("<a href='/onelex.php?post_id=".$item['id']."'>Перейти к лекции</a><br><br>");
+    print ("Конспект:<br><br>".$item['content']." <br><br>");
 
     print ('
     </h5>
@@ -188,30 +205,24 @@ while ($item = mysqli_fetch_array ($get_all)){
 </div>
 </div>');
 }
+$vote = mysqli_fetch_array(mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`= '$id' AND `user_id` = '$user_id'"));
+if (empty($vote)){
+    if ($user_id != $_SESSION['id']) {
+        echo '
+        <form method="POST" style="margin-right:20px;">
+            <input name="vote" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Like" />
+        </form>';
+        echo '
+        <form method="POST">
+            <input name="dis" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Dislike" />
+        </form>';
+    }
+}
 
 ?>
-<!-- <div class="col-xl-1 col-lg-1"></div> -->
 
-    <!-- <div class="col-xl-12 col-lg-12">
-        <div class="card" style="padding-bottom:20px;">
-            <div class="card-header">
-                <h4 class="card-title">Тема лекции:</h4>
-            </div>
-
-            <form method="post" action="form-element" style="margin-top:30px;">
-            <div class="row">
-                <div class="col-xl-1 col-lg-1"></div>
-                <div class=" col-xl-10 col-lg-10" style="float:left;">
-                    <h5>Дата лекции:</h5>
-                    <img src="ozero.jpg" class="img-fluid">   
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
-
-
+        
+	</div>
     <script src="
 vendor/global/global.min.js"></script>
 	<script src="
@@ -235,8 +246,54 @@ vendor/apexchart/apexchart.js"></script>
 
 
 
-
 <?
+
+
+if (isset($_POST['vote'])){
+    $add = mysqli_query ($link, "INSERT INTO `vote` (`user_id`, `post_id`, `value`, `cause`) 
+        VALUES ('$user_id', '$id', 1, 'useful')");
+    
+    // обновление рейтинга
+    $sq =mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`=$id");
+    while ($rate = mysqli_fetch_array($sq)) {
+        $x = $x + $rate['value'];
+    }
+    $update = mysqli_query($link, "UPDATE `conspect` SET `value`= $x WHERE `id`= $id"); 
+    $sq = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `user_id`=$user_id");
+    
+    while ($rate = mysqli_fetch_array($sq)) {
+        $x = $x + $rate['value'];
+    }
+    $update = mysqli_query($link, "UPDATE `user` SET `value`= $x WHERE `id`= $user_id");
+
+    echo '<meta http-equiv="refresh" content="0">';
+}
+
+if (isset($_POST['dis'])){
+    $cause = $_POST['cause'];
+    $v = -1;
+    $add = mysqli_query ($link, "INSERT INTO `vote` (`user_id`, `post_id`, `value`, `cause`) 
+        VALUES ('$user_id', '$id', $v, '$cause')");
+
+    // обновление рейтинга
+    $sq =mysqli_query ($link, "SELECT * FROM `vote` WHERE `post_id`=$id");
+    while ($rate = mysqli_fetch_array($sq)) {
+        $x = $x + $rate['value'];
+    }
+    $update = mysqli_query($link, "UPDATE `conspect` SET `value`= $x WHERE `id`= $id"); 
+    $sq = mysqli_query ($link, "SELECT * FROM `conspect` WHERE `user_id`=$user_id");
+    
+    while ($rate = mysqli_fetch_array($sq)) {
+        $x = $x + $rate['value'];
+    }
+    $update = mysqli_query($link, "UPDATE `user` SET `value`= $x WHERE `id`= $user_id");
+    
+
+    echo '<meta http-equiv="refresh" content="0">';
+}
+
+
+
 if (isset($_POST['quit'])){
     $_SESSION['is_login']=false;
 }
