@@ -22,8 +22,6 @@ $link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"
 
 // Получение данных из формы 
 
-$university = $_POST['un'];
-$faculty = $_POST['faculty'];
 $course = $_POST['course'];
 $subj = $_POST['subj'];
 $theme = $_POST['theme'];
@@ -33,13 +31,13 @@ $content = $_POST['content'];
 
 $id = $_SESSION['id'];
 $user = mysqli_fetch_array(mysqli_query ($link, "SELECT * FROM `user` WHERE `id`= '$id'"));
+$university = $user['institution'];
+$faculty = $user['specialty'];
 
 
     if (!empty($university) && !empty($faculty) && !empty($course) && !empty($subj) && !empty($theme) && !empty($content)) {
         if ($user['value']>-10){
-        $un = $user['institution'];
-        $sp = $user['specialty'];
-        $add = mysqli_query ($link, "INSERT INTO `conspect` (`user_id`, `university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$id', '$un', '$sp', '$course', '$subj', '$theme', '$content')");
+        $add = mysqli_query ($link, "INSERT INTO `conspect` (`user_id`, `university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$id','$university', '$faculty', '$course', '$subj', '$theme', '$content')");
         echo "<script>document.location.href='/';</script>";
         }
         else {

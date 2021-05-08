@@ -31,7 +31,7 @@ print ("Все записи:<br><br>");
 $get_all = mysqli_query ($link, "SELECT * FROM `conspect` ORDER BY `value` DESC");
 
 while ($item = mysqli_fetch_array ($get_all)){
-    print ("Рейтинг поста:".$item['value']."<br>");
+    print ("Рейтинг: ".$item['value']."<br>");
     print ("Учебное заведение:".$item['university'].", ");
     print ("Специальность:".$item['faculty'].", ");
     print ("Курс:".$item['course'].". <br>");
