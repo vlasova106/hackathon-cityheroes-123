@@ -1,3 +1,11 @@
+<?
+session_start();
+
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
+$users = mysqli_query ($link, "SELECT * FROM `user` WHERE 1");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,14 +104,14 @@
                             <div class="card-header">
                                 <h4 class="card-title">Введите данные</h4>
                             </div>
-							<form method="post" action="form-element" style="margin-top:30px;">
+							<form method="post" style="margin-top:30px;">
                             <div class="col-xl-2 col-lg-2"></div>
                             <div class=" col-xl-8 col-lg-8" style="float:left;">
                                 <div class="basic-form">
 									<div class="form-group">
 								
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Логин">
-    <input type="password" class="form-control nin" id="yjeb" placeholder="Пароль">
+    <input type="text" class="form-control nin" id="yjeb" placeholder="Логин" name="login">
+    <input type="password" class="form-control nin" id="yjeb" placeholder="Пароль" name="pass">
   <button type="submit" class="btn btn-primary">Submit</button>
 									
 										                                        </div>
@@ -111,6 +119,43 @@
                                 </div>
                             </div>
 </form>
+
+
+<? 
+// Получение данных из формы
+
+$login = $_POST['login'];
+$pass = $_POST['pass'];
+$isLogin = false;
+
+//Проверка существования никнейма в бд
+
+while ($u = mysqli_fetch_array ($users)){
+    if ($u['name'] == $login) {
+        $isLogin = true;
+        $user = mysqli_query ($link, "SELECT * FROM `user` WHERE `name` = '$login'");
+    }
+}
+
+// Проверка пароля
+
+if (!empty($login) && !empty($pass)){
+    if ($isLogin == true){
+        while ($u = mysqli_fetch_array ($user)){
+            if ($u['password'] == $pass){
+                $_SESSION['id'] = $u['id'];
+                $_SESSION['is_login'] = true;
+                echo "<script>document.location.href='/urlex.php';</script>";
+            }else {
+            }
+        }
+    }else {
+    }
+}
+
+
+mysqli_close($link);
+?>
 				
 </form>
                 </div>
@@ -134,4 +179,4 @@ js/deznav-init.js"></script>
 vendor/apexchart/apexchart.js"></script>
     
 </body>
-</html>
+</html> 

@@ -42,3 +42,37 @@ while ($item = mysqli_fetch_array ($get_all)){
 
 mysqli_close($link);
 ?>
+
+
+
+
+
+
+
+
+<?php 
+
+while ($item = mysqli_fetch_array ($get_all)){
+    print ('<div class="col-xl-12 col-lg-12">
+    <div class="card" style="padding-bottom:20px;">');
+
+    print ("Рейтинг: ".$item['value']."<br>");
+    print ("Учебное заведение:".$item['university'].", ");
+    print ("Специальность:".$item['faculty'].", ");
+    print ("Курс:".$item['course'].". <br>");
+    print ("Предмет:".$item['subj'].", ");
+    print ("Тема:".$item['theme'].". <br>");
+    print ("<a href='/post.php?post_id=".$item['id']."'>Перейти к посту</a><br><br>");
+
+    print ('</div>
+    </div>');
+}
+
+?>
+
+<?php
+                        
+while ($u = mysqli_fetch_array ($user)){
+    print ("<h5 style='float:right'>".$u['name']."</h5>");
+                        
+                        ?>

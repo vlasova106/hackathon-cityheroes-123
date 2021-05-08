@@ -1,3 +1,15 @@
+
+<?php 
+session_start();
+
+if ($_SESSION['is_login']==true){
+    echo "<script>document.location.href='/urlex.php';</script>";
+}
+
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,19 +139,18 @@
                                 <h4 class="card-title">Введите данные</h4>
                             </div>
 
-							<form method="post" action="form-element" style="margin-top:30px;">
+							<form method="post" style="margin-top:30px;">
                             <div class="col-xl-2 col-lg-2"></div>
                             <div class=" col-xl-8 col-lg-8" style="float:left;">
                                 <div class="basic-form">
 									<div class="form-group">
 
 
-									<input type="text" class="form-control nin" id="yjeb" placeholder="Ваше учебное зведение">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Имя">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Почта">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Учебное заведение">
-    <input type="text" class="form-control nin" id="yjeb" placeholder="Специальность">
-    <input type="password" class="form-control nin" id="yjeb" placeholder="Пароль">
+    <input type="text" class="form-control nin" id="yjeb" placeholder="Имя" name="login">
+    <input type="text" class="form-control nin" id="yjeb" placeholder="Почта" name="email">
+    <input type="text" class="form-control nin" id="yjeb" placeholder="Учебное заведение" name="un">
+    <input type="text" class="form-control nin" id="yjeb" placeholder="Специальность" name="sp">
+    <input type="password" class="form-control nin" id="yjeb" placeholder="Пароль" name="pass">
 
   <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -152,7 +163,38 @@
 
 
 </form>
+<? 
+// Получение данных из формы 
 
+$login = $_POST['login'];
+$email = $_POST['email'];
+$un = $_POST['un'];
+$sp = $_POST['sp'];
+$pass = $_POST['pass'];
+
+// Регистрация нового вользователя
+
+if (!empty($login) && !empty($email) && !empty($un) && !empty($sp) && !empty($pass)) {
+    $users = mysqli_query ($link, "SELECT * FROM `user` WHERE 1");
+    $loginCheck = true; 
+    while ($user = mysqli_fetch_array ($users)) {
+        if ($user['name'] == $login) {
+            $loginCheck = false;
+        }
+    }
+    if ($loginCheck == true){
+        $add = mysqli_query ($link, "INSERT INTO `user` (`name`, `email`, `institution`, `specialty`, `password`) 
+        VALUES ('$login', '$email', '$un', '$sp', '$pass')");
+        $_SESSION['is_login'] = true;
+        $_SESSION['id'] = mysqli_insert_id($link);
+        echo "<script>document.location.href='/urlex.php';</script>";
+        
+    }
+
+}
+
+mysqli_close($link);
+?>
 				
 
 

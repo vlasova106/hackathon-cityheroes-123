@@ -1,4 +1,16 @@
 
+<? 
+session_start();
+$link = mysqli_connect("localhost", "mysql", "mysql", "hackathon-cityheroes-123"); 
+
+$id = $_SESSION['id'];
+$user = mysqli_query ($link, "SELECT * FROM `user` WHERE `id` = '$id'");
+
+$get_all = mysqli_query ($link, "SELECT * FROM `conspect` ORDER BY `value` DESC");
+
+mysqli_close($link);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,7 +107,13 @@ padding-bottom:10px;
 
 
                         </div>
-                        <h5 style="float:right">Имя</h5>
+
+                        <?php
+                        
+while ($u = mysqli_fetch_array ($user)){
+    print ("<h5 style='float:right'>".$u['name']."</h5>");
+}
+                        ?>
 
                      
                     </div>
@@ -114,7 +132,10 @@ padding-bottom:10px;
 							<li><a href="form-element.php">Отправка лекции</a></li>
 							<li><a href="accept.php">Получение лекций</a></li>
 							<li><a href="urlex.php">Ваши лекции</a></li>
-
+                            <form method="POST">
+                                <input name="quit" type="submit" class="btn btn-secondary" style="margin-left:20%" value="Выйти из аккаунта" />
+                            </form>
+                           
 						</ul>
                     </li>
 
@@ -132,8 +153,47 @@ padding-bottom:10px;
 
         <div class="row" style="margin-top:30px;">
 
+
+
+        <?php 
+
+while ($item = mysqli_fetch_array ($get_all)){
+    print ('<div class="col-xl-12 col-lg-12">
+    <div class="card" style="padding-bottom:20px;">');
+
+    print ('
+    
+            <div class="card-header" style="margin-bottom:20px;">
+                <h4 class="card-title">Тема лекции: '.$item["theme"].' </h4>
+            </div>
+            
+            <div class="row">
+                <div class="col-xl-1 col-lg-1"></div>
+                <div class=" col-xl-10 col-lg-10" style="float:left;"> 
+                <h5>
+    
+    ');
+
+    print ("Рейтинг: ".$item['value']."<br>");
+    print ("Учебное заведение:".$item['university'].", ");
+    print ("Специальность:".$item['faculty'].", ");
+    print ("Курс:".$item['course'].". <br>");
+    print ("Предмет:".$item['subj'].", <br><br>");
+
+    print ("<a href='/post.php?post_id=".$item['id']."'>Перейти к лекции</a><br><br>");
+
+    print ('
+    </h5>
+    </div>
+    </div>
+</div>
+</div>');
+}
+
+?>
 <!-- <div class="col-xl-1 col-lg-1"></div> -->
-    <div class="col-xl-12 col-lg-12">
+
+    <!-- <div class="col-xl-12 col-lg-12">
         <div class="card" style="padding-bottom:20px;">
             <div class="card-header">
                 <h4 class="card-title">Тема лекции:</h4>
@@ -141,23 +201,18 @@ padding-bottom:10px;
 
             <form method="post" action="form-element" style="margin-top:30px;">
             <div class="row">
-            <div class="col-xl-1 col-lg-1"></div>
-            <div class=" col-xl-10 col-lg-10" style="float:left;">
-            <h5>Дата лекции:</h5>
-            <img src="ozero.jpg" class="img-fluid">   
+                <div class="col-xl-1 col-lg-1"></div>
+                <div class=" col-xl-10 col-lg-10" style="float:left;">
+                    <h5>Дата лекции:</h5>
+                    <img src="ozero.jpg" class="img-fluid">   
+                </div>
             </div>
-</div>
+        </div>
+    </div> -->
 
 
 
 
-
-
-
-
-
-        
-	</div>
     <script src="
 vendor/global/global.min.js"></script>
 	<script src="
@@ -177,3 +232,17 @@ vendor/apexchart/apexchart.js"></script>
 </body>
 
 </html>
+
+
+
+
+
+<?
+if (isset($_POST['quit'])){
+    $_SESSION['is_login']=false;
+}
+
+if ($_SESSION['is_login']==false){
+    echo "<script>document.location.href='/login.php';</script>";
+}
+?>
