@@ -3,8 +3,6 @@
 <a href="/">Отмена</a>
 
 <form  method="POST">
-    <input type="text" name="un" placeholder="Учебное заведение">
-    <input type="text" name="faculty" placeholder="Специальность">
     <input type="text" name="course" placeholder="Курс">
     <input type="text" name="subj" placeholder="Предмет">
     <input type="text" name="theme" placeholder="Тема">
@@ -33,12 +31,23 @@ $content = $_POST['content'];
 
 // Формирование новой записи
 
-if (!empty($university) && !empty($faculty) && !empty($course) && !empty($subj) && !empty($theme) && !empty($content)) {
-    $id = $_SESSION['id'];
-    $add = mysqli_query ($link, "INSERT INTO `conspect` (`user_id`, `university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$id','$university', '$faculty', '$course', '$subj', '$theme', '$content')");
-    echo "<script>document.location.href='/';</script>";
+$id = $_SESSION['id'];
+$user = mysqli_fetch_array(mysqli_query ($link, "SELECT * FROM `user` WHERE `id`= '$id'"));
 
-}
+
+    if (!empty($university) && !empty($faculty) && !empty($course) && !empty($subj) && !empty($theme) && !empty($content)) {
+        if ($user['value']>-10){
+        $un = $user['institution'];
+        $sp = $user['specialty'];
+        $add = mysqli_query ($link, "INSERT INTO `conspect` (`user_id`, `university`, `faculty`, `course`, `subj`, `theme`, `content`) VALUES ('$id', '$un', '$sp', '$course', '$subj', '$theme', '$content')");
+        echo "<script>document.location.href='/';</script>";
+        }
+        else {
+            print ('Ваш рейтинг:'.$user['value'].'<br >');
+            print ('Вы не можете публиковать записи.');
+        }
+    }
+
 
 mysqli_close($link);
 
